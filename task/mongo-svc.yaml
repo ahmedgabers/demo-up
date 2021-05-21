@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mongo-deployment
+    name: mongo
+    tier: backend
+  name: mongo-deployment
+spec:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  selector:
+    app: mongo-deployment
+    name: mongo
+    tier: backend
+status:
+  loadBalancer: {}

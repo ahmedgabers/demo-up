@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: nginx-taint
+  name: nginx-taint
+spec:
+  tolerations:
+  - key: state
+    operator: Equal 
+    value: maintainance
+    effect: NoSchedule
+  containers:
+  - image: nginx
+    name: nginx-taint
+  restartPolicy: Always

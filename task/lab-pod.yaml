@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: lab-pod
+  name: lab-pod
+spec:
+  volumes:
+  - name: cm-one-vol
+    configMap:
+      name: configmap-one
+      items:
+      - key: COLOUR
+        path: configmaps/cm-one
+
+  - name: cm-two-vol
+    configMap:
+      name: configmap-two
+      items:
+      - key: COLOUR
+        path: configmaps/cm-two
+
+
+  containers:
+  - image: redis
+    name: redis
+    resources:
+      limits:
+        cpu: 0.1
+
+    env:
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+  - image: nginx
+    name: lab-pod
+    resources:
+      requests:
+        cpu: 200m
+        memory: 400Mi
+      limits:
+        cpu: 400m
+        memory: 800Mi
+
+    volumeMounts:
+    - name: cm-one-vol
+      mountPath: /usr/share/nginx/html/cm-one
+      subPath: configmaps/cm-one
+
+    - name: cm-two-vol
+      mountPath: /usr/share/nginx/html/cm-two
+      subPath: configmaps/cm-two
+
+    env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName

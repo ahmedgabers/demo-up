@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: rollapp-deployment
+    tier: frontend
+  name: rollapp-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rollapp-deployment
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: rollapp-deployment
+        tier: frontend
+    spec:
+      containers:
+      - image: ahmedgabercod/rollapp:1.0.0
+        name: rollapp
+        envFrom:
+        - secretRef:
+            name: lab-secret
+        

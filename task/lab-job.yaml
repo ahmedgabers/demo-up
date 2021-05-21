@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lab-job
+spec:
+  completions: 15
+  parallelism: 3
+  template:
+    metadata:
+    spec:
+      restartPolicy: Never
+      containers:
+      - image: ahmedgabercod/throw-dice
+        name: lab-job
